@@ -28,13 +28,12 @@ router.post('', async (req, res) => {
   if (!req.body.author || ! req.body.message) {
     console.info(req.body);
     res.status(400).send({
-      'error': 'Some data is missing from a request!'
+      error: 'Some data is missing from a request!'
     })
   } else {
     await fileDb.addMessage(req.body);
     res.send(req.body)
   }
-  console.log('request sent')
 });
 
 module.exports = router;
