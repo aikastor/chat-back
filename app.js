@@ -26,7 +26,6 @@ router.get('', async  (req, res) => {
 router.post('', async (req, res) => {
 
   if (!req.body.author || ! req.body.message) {
-    console.info(req.body);
     res.status(400).send({
       error: 'Some data is missing from a request!'
     })
