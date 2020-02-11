@@ -4,7 +4,17 @@ const fileDb = require('./fileDb');
 
 router.get('', async  (req, res) => {
   const date = req.query.datetime;
+
   if (date) {
+    const dateToCheck = new Date(date);
+    if (!isNaN(dateToCheck.getDate())) {
+      const items = await fileDb.getMessagesByDate(date);
+      res.send(items);
+    } else {
+      res.status(400).send({
+        'error': 'Incorrect datetime format!'
+      })
+    }
 
   } else {
     const items = await fileDb.getMessages();
@@ -15,7 +25,7 @@ router.get('', async  (req, res) => {
 
 router.post('', async (req, res) => {
 
-  if (Object.keys(req.body).length === 0) {
+  if (!req.body.author || ! req.body.message) {
     console.info(req.body);
     res.status(400).send({
       'error': 'Some data is missing from a request!'

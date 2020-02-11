@@ -39,12 +39,18 @@ module.exports = {
   },
 
   async getMessages () {
-    return data.sort((a, b) =>
-        new Date(a.datetime) - new Date(b.datetime)
-    );
+    return data
+        .sort((a, b) =>
+        new Date(a.datetime) - new Date(b.datetime))
+
+        .slice(-30);
   },
   async getMessagesByDate (date) {
-
+    data.sort((a, b) =>
+        new Date(a.datetime) - new Date(b.datetime)
+    );
+    const index = data.findIndex(x => x.datetime === date);
+    return data.slice(index + 1);
   },
   async addMessage (message) {
     message.id = nanoid();
